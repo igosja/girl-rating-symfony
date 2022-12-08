@@ -1,0 +1,57 @@
+version: '3.2'
+
+services:
+
+  php:
+    build: .
+    ports:
+      - "10010:80"
+    container_name: symfony-girl-rating-php
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    links:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:8.0
+    #    volumes:
+    #      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=symfony-girl-rating
+      - MYSQL_USER=symfony
+      - MYSQL_PASSWORD=password
+    ports:
+      - "10011:3306"
+    container_name: symfony-girl-rating-mysql
+    command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_general_ci
+
+  redis:
+    image: redis:7.0
+    volumes:
+      - ./docker/redis:/data
+    ports:
+      - "10012:6379"
+    container_name: symfony-girl-rating-redis
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-14}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###

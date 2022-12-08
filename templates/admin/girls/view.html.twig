@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ girl.name }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">{{ girl.name }}</h1>
+    <ul class="list-inline text-center">
+        <li class="list-inline-item">
+            <a class="btn btn-default" href="{{ path('admin_girls') }}">List</a>
+        </li>
+        <li class="list-inline-item">
+            <a class="btn btn-default" href="{{ path('admin_girl_update', {'id': girl.id}) }}">Update</a>
+        </li>
+        <li class="list-inline-item">
+            <a class="btn btn-default" href="{{ path('admin_girl_delete', {'id': girl.id}) }}"
+               data-confirm="Are you sure?">Delete</a>
+        </li>
+    </ul>
+    <div class="row">
+        <table class="table table-striped table-bordered detail-view">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ girl.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ girl.name }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    {% if girl.getFileUrl %}
+                        <img alt="img" src="{{ girl.getFileUrl }}" class="img-fluid">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Created at</th>
+                <td>{{ girl.createdAt|date }}</td>
+            </tr>
+            <tr>
+                <th>Created by</th>
+                <td>{{ girl.createdBy.username }}</td>
+            </tr>
+            <tr>
+                <th>Updated at</th>
+                <td>{{ girl.updatedAt|date }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

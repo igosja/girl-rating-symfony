@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ vote.id }}{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <h1>Vote #{{ vote.id }}</h1>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-lg-5 col-md-6 offset-lg-1">
+            <a href="{{ path('vote_vote', {'id': vote.id, 'girl': vote.girlOne.id}) }}">
+                <img alt="{{ vote.girlOne.name }}" class="img-fluid img-thumbnail" src="{{ vote.girlOne.getFileUrl }}"/>
+            </a>
+            <h3>{{ vote.girlOne.name }}</h3>
+        </div>
+        <div class="col-lg-5 col-md-6">
+            <a href="{{ path('vote_vote', {'id': vote.id, 'girl': vote.girlTwo.id}) }}">
+                <img alt="{{ vote.girlTwo.name }}" class="img-fluid img-thumbnail" src="{{ vote.girlTwo.getFileUrl }}"/>
+            </a>
+            <h3>{{ vote.girlTwo.name }}</h3>
+        </div>
+    </div>
+{% endblock %}

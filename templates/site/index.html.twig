@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Girls{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        {% for girl in girls %}
+            <div class="col-lg-3 col-sm-6">
+                <img class="img-fluid img-thumbnail"
+                     src="{{ girl.getFileUrl() }}"
+                     alt="{{ girl.name }}">
+                <h3>{{ girl.name }}</h3>
+                <h6>{{ girl.rating }}</h6>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
